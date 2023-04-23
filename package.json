@@ -1,6 +1,6 @@
 {
-  "name": "lz-utils-423",
-  "version": "0.0.2",
+  "name": "lz-423",
+  "version": "0.0.1",
   "main": "index.js",
   "repository": {
     "type": "git",
@@ -9,5 +9,6 @@
   "bugs": "https://github.com/LUFENGZHAN/lz_utils/issues",
   "author": "LUFENGZHAN <xiaozhan2000423@163.com>",
   "license": "MIT",
-  "homepage": "https://github.com/LUFENGZHAN/lz_utils#readme"
+  "homepage": "https://github.com/LUFENGZHAN/lz_utils#readme",
+  "keywords": []
 }

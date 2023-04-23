@@ -1,5 +1,5 @@
 export default {
-     aaa(e:any) {
+     aaa(e) {
         console.log(e);
     }
 }
