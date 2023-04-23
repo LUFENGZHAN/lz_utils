@@ -1,0 +1,13 @@
+{
+  "name": "lz_utils",
+  "version": "0.0.1",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LUFENGZHAN/lz_utils.git"
+  },
+  "bugs": "https://github.com/LUFENGZHAN/lz_utils/issues",
+  "author": "LUFENGZHAN <xiaozhan2000423@163.com>",
+  "license": "MIT",
+  "homepage": "https://github.com/LUFENGZHAN/lz_utils#readme"
+}
