@@ -2,13 +2,20 @@
   "name": "lz-423",
   "version": "0.0.2",
   "main": "index.js",
+  "type": "module",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/LUFENGZHAN/lz_utils.git"
   },
-  "bugs": "https://github.com/LUFENGZHAN/lz_utils/issues",
+  "bugs": {
+    "url": "https://github.com/LUFENGZHAN/lz_utils/issues"
+  },
   "author": "LUFENGZHAN <xiaozhan2000423@163.com>",
   "license": "MIT",
   "homepage": "https://github.com/LUFENGZHAN/lz_utils#readme",
-  "keywords": []
+  "keywords": [],
+  "description": "```js\r npm install lz-423\r ```",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
 }
