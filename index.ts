@@ -4,6 +4,9 @@
  * @param {*} end string
  */
 export const MaxNum = (start:string,end:string):String => {
+    if (!start && !end) {
+        throw new Error('Two parameters cannot be empty')
+    }
     const len = Math.max(start.length, end.length)
     start = start.padStart(len,'0')
     end = end.padStart(len,'0')
