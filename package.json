@@ -1,6 +1,6 @@
 {
-  "name": "lz-423",
-  "version": "0.0.9",
+  "name": "lfz-utils",
+  "version": "0.0.2",
   "main": "index.ts",
   "repository": {
     "type": "git",
@@ -13,7 +13,7 @@
   "license": "MIT",
   "homepage": "https://github.com/LUFENGZHAN/lz_utils#readme",
   "keywords": [],
-  "description": "```js\r npm install lz-423\r ```",
+  "description": "```js\r npm install lfz-utils\r ```",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
