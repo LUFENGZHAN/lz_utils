@@ -6,20 +6,20 @@ exports.MaxNum = void 0;
  * @param {*} start string
  * @param {*} end string
  */
-var MaxNum = function (start, end) {
+const MaxNum = (start, end) => {
     if (!start && !end) {
         throw new Error('Two parameters cannot be empty');
     }
     if (typeof (start) !== 'string' || typeof (end) !== 'string') {
         throw new TypeError('Can only be a string');
     }
-    var len = Math.max(start.length, end.length);
+    const len = Math.max(start.length, end.length);
     start = start.padStart(len, '0');
     end = end.padStart(len, '0');
-    var carry = 0;
-    var result = '';
-    for (var i = len - 1; i >= 0; i--) {
-        var sum = +start[i] + +end[i] + carry;
+    let carry = 0;
+    let result = '';
+    for (let i = len - 1; i >= 0; i--) {
+        const sum = +start[i] + +end[i] + carry;
         result = (sum % 10) + result;
         carry = Math.floor(sum / 10);
         if (sum > 9) {
