@@ -4,12 +4,11 @@
 ```js
 npm install lfz-utils
 ```
-###### 最大整数之和 
+###### 使用方法 
 ```js
-import { MaxNum } from 'lfz-utils';
-MaxNum('11111111111111111','11111111111111111') //22222222222222222
-```
-```js
-import { deftime } from 'lfz-utils';
-deftime(2)  [ '2023-04-01', '2023-06-30' ]
+import {utils} from 'lfz-utils';
+
+utils.MaxNum('12345678987654321','12345678987654321') //24691357975308642
+
+utils.deftime(2)  //[ '2023-04-01', '2023-06-30' ]
 ```

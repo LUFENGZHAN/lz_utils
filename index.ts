@@ -1,6 +1,6 @@
-import tool from './utils/tool'
-import time from './utils/time'
+import utils  from './utils/tool'
+
+export  {utils}
 export default {
-    tool,
-    time
+    utils,
 }
