@@ -1,7 +1,7 @@
 {
   "name": "lfz-utils",
-  "version": "0.0.6",
-  "main": "index.ts",
+  "version": "0.0.92",
+  "main": "types/index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/LUFENGZHAN/lz_utils.git"
@@ -9,14 +9,11 @@
   "bugs": {
     "url": "https://github.com/LUFENGZHAN/lz_utils/issues"
   },
+  "files": ["types"],
   "author": "LUFENGZHAN <xiaozhan2000423@163.com>",
   "license": "MIT",
   "homepage": "https://github.com/LUFENGZHAN/lz_utils#readme",
   "keywords": [],
-  "description": "```js\r npm install lfz-utils\r ```",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "devDependencies": {},
   "dependencies": {}
 }
