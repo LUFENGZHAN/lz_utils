@@ -43,7 +43,7 @@ export const deftime = (interval: string | number = 0): Array<string> => {
     let index = Number(interval) === 0 ? month : month - Number(interval)
     if (index < 1) {
         index = months[Math.abs(index) % 12]
-        year = year - Math.round(Number(interval) / 12)
+        year = year - Math.ceil(Number(interval) / 12)
     }
     const days = new Date(year, date.getMonth() + 1, 0).getDate()
     let start = `${year}-${common.tooltime(index)}-${common.tooltime((date.getDate() - date.getDate() + 1))}`
