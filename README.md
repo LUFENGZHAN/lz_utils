@@ -1,4 +1,5 @@
 # lfz-utils
+> 记录平时常用小工具集合
 
 ### Initial 
 ```js
