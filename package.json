@@ -1,7 +1,8 @@
 {
-  "name": "lfz-utils",
-  "version": "0.0.94",
-  "main": "types/index.js",
+  "name": "pu-utilsjs",
+  "version": "0.0.2",
+  "main": "bin/index.js",
+  "types": "types/index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/LUFENGZHAN/lz_utils.git"
@@ -9,11 +10,18 @@
   "bugs": {
     "url": "https://github.com/LUFENGZHAN/lz_utils/issues"
   },
-  "files": ["types"],
+  "files": [
+    "types",
+    "bin"
+  ],
   "author": "LUFENGZHAN <xiaozhan2000423@163.com>",
   "license": "MIT",
   "homepage": "https://github.com/LUFENGZHAN/lz_utils#readme",
   "keywords": [],
-  "devDependencies": {},
-  "dependencies": {}
+  "dependencies": {
+    "spark-md5": "^3.0.2"
+  },
+  "devDependencies": {
+    "@types/spark-md5": "^3.0.4"
+  }
 }

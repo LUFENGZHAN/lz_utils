@@ -1,5 +1,7 @@
 import common from "./utils/tool"
-
+import { createChunk, createChunkType as ChunkType, createChunkBlob, createChunkBlobType as ChunkBlobType } from "./utils/createChunk"
+export type createChunkType = ChunkType
+export type createChunkBlobType = ChunkBlobType
 /**
  * 计算大整数之和
  * @param {*} start string
@@ -50,7 +52,61 @@ export const deftime = (interval: string | number = 0): Array<string> => {
     let end = `${date.getFullYear()}-${common.tooltime(date.getMonth() + 1)}-${common.tooltime(days)}`
     return [start, end]
 }
+/**
+ * 文件分片
+ * @param {File} file 文件
+ * @param {number} size 切片大小
+ * @param {Boolean} isMd5 是否使用md5作为hash
+ */
+export const cuFile = async (file: File, size: number = 5, isMd5: Boolean = false): Promise<ChunkType[] | ChunkBlobType[]> => {
+    if (!file ) return []
+    const CHUNK_SIZE = Math.round(size) * 1024 * 1024
+    const chunkCount = Math.ceil(file.size / CHUNK_SIZE)
+    const THREAD_COUNT = navigator.hardwareConcurrency || 4
+    const workerChunkCount = Math.ceil(chunkCount / THREAD_COUNT)
+    const result: ChunkBlobType[] = []
+    if (!isMd5) {
+        return createChunkBlob(file, CHUNK_SIZE)
+    }
+    for (let i = 0; i < chunkCount; i++) {
+        const chunk = await createChunk(file, i, CHUNK_SIZE)
+        result.push(chunk)
+    }
+    return result
+    // return new Promise((resolve, reject) => {
+    //     let finishCount = 0
+    //     for (let i = 0; i < chunkCount; i++) {
+    //         const worker = new Worker('./utils/worker', {
+    //             type: "module",
+                
+    //         })
+    //         const startIndex = i * workerChunkCount
+    //         let endIndex = startIndex + workerChunkCount
+    //         if (endIndex > chunkCount) {
+    //             endIndex = chunkCount
+    //         }
+    //         worker.postMessage({
+    //             file,
+    //             CHUNK_SIZE,
+    //             startIndex,
+    //             endIndex
+    //         })
+    //         worker.onmessage = (e) => {
+    //             for (let i = startIndex; i < endIndex; i++) {
+    //                 result[i] = e.data[i - startIndex]
+    //             }
+    //             worker.terminate()
+    //             finishCount++
+    //             if (finishCount === THREAD_COUNT) {
+    //                 resolve(result)
+    //             }
+    //         }
+    //     }
+    // })
+
+}
 export default {
     MaxNum,
     deftime,
+    cuFile
 }

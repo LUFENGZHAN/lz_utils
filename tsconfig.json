@@ -1,19 +1,21 @@
 {
     "compilerOptions": {
       "baseUrl": "./",
-      "module": "CommonJS",
-      "target": "es2020",
+      "module": "ESNext",
+      "target": "es2017",
+      "moduleResolution": "node",
       "allowJs": false,
       "declaration": true,
-      "outDir": "./types",
-      "strict": true
+      "declarationDir": "./types",
+      "outDir": "./bin",
+      "lib": ["es2017", "dom", "webworker"],
+      "strict": true,
     },
     "exclude": [
       "node_modules",
     ],
     "include": [
       "index.ts",
-      ""
-    ]
+    ],
   }
   
