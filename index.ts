@@ -73,37 +73,6 @@ export const cuFile = async (file: File, size: number = 5, isMd5: Boolean = fals
         result.push(chunk)
     }
     return result
-    // return new Promise((resolve, reject) => {
-    //     let finishCount = 0
-    //     for (let i = 0; i < chunkCount; i++) {
-    //         const worker = new Worker('./utils/worker', {
-    //             type: "module",
-                
-    //         })
-    //         const startIndex = i * workerChunkCount
-    //         let endIndex = startIndex + workerChunkCount
-    //         if (endIndex > chunkCount) {
-    //             endIndex = chunkCount
-    //         }
-    //         worker.postMessage({
-    //             file,
-    //             CHUNK_SIZE,
-    //             startIndex,
-    //             endIndex
-    //         })
-    //         worker.onmessage = (e) => {
-    //             for (let i = startIndex; i < endIndex; i++) {
-    //                 result[i] = e.data[i - startIndex]
-    //             }
-    //             worker.terminate()
-    //             finishCount++
-    //             if (finishCount === THREAD_COUNT) {
-    //                 resolve(result)
-    //             }
-    //         }
-    //     }
-    // })
-
 }
 export default {
     MaxNum,
