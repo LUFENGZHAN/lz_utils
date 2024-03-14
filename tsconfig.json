@@ -2,14 +2,14 @@
     "compilerOptions": {
       "baseUrl": "./",
       "module": "ESNext",
-      "target": "es2017",
+      "target": "es2015",
       "moduleResolution": "node",
       "allowJs": false,
       "allowSyntheticDefaultImports":true,
       "declaration": true,
       "declarationDir": "./types",
-      "outDir": "./bin",
-      "lib": ["es2017", "dom", "webworker"],
+      "outDir": "./dist",
+      "lib": ["es2017", "dom"],
       "strict": true,
     },
   }

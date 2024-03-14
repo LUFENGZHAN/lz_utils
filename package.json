@@ -1,11 +1,11 @@
 {
   "name": "pu-utilsjs",
   "version": "0.0.24",
-  "main": "bin/index.js",
+  "main": "dist/index.js",
   "types": "types/index.d.ts",
   "files": [
     "types",
-    "bin"
+    "dist"
   ],
   "author": "LUFENGZHAN <xiaozhan2000423@163.com>",
   "license": "MIT",
