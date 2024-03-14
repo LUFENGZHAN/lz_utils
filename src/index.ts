@@ -1,5 +1,5 @@
-import common from "./utils/tool"
-import { createChunk, createChunkType as ChunkType, createChunkBlob, createChunkBlobType as ChunkBlobType } from "./utils/createChunk"
+import common from "./tool"
+import { createChunk, createChunkType as ChunkType, createChunkBlob, createChunkBlobType as ChunkBlobType } from "./createChunk"
 export type createChunkType = ChunkType
 export type createChunkBlobType = ChunkBlobType
 /**
@@ -62,8 +62,6 @@ export const cuFile = async (file: File, size: number = 5, isMd5: Boolean = fals
     if (!file ) return []
     const CHUNK_SIZE = Math.round(size) * 1024 * 1024
     const chunkCount = Math.ceil(file.size / CHUNK_SIZE)
-    const THREAD_COUNT = navigator.hardwareConcurrency || 4
-    const workerChunkCount = Math.ceil(chunkCount / THREAD_COUNT)
     const result: ChunkBlobType[] = []
     if (!isMd5) {
         return createChunkBlob(file, CHUNK_SIZE)

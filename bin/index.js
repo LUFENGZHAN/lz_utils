@@ -1,5 +1,5 @@
-import common from "./utils/tool";
-import { createChunk, createChunkBlob } from "./utils/createChunk";
+import common from "./tool";
+import { createChunk, createChunkBlob } from "./createChunk";
 /**
  * 计算大整数之和
  * @param {*} start string
@@ -61,8 +61,6 @@ export const cuFile = async (file, size = 5, isMd5 = false) => {
         return [];
     const CHUNK_SIZE = Math.round(size) * 1024 * 1024;
     const chunkCount = Math.ceil(file.size / CHUNK_SIZE);
-    const THREAD_COUNT = navigator.hardwareConcurrency || 4;
-    const workerChunkCount = Math.ceil(chunkCount / THREAD_COUNT);
     const result = [];
     if (!isMd5) {
         return createChunkBlob(file, CHUNK_SIZE);

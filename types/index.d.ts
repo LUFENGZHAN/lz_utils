@@ -1,4 +1,4 @@
-import { createChunkType as ChunkType, createChunkBlobType as ChunkBlobType } from "./utils/createChunk";
+import { createChunkType as ChunkType, createChunkBlobType as ChunkBlobType } from "./createChunk";
 export type createChunkType = ChunkType;
 export type createChunkBlobType = ChunkBlobType;
 /**
