@@ -1,14 +1,11 @@
 {
   "name": "pu-utilsjs",
-  "version": "0.0.21",
+  "version": "0.0.22",
   "main": "bin/index.js",
   "types": "types/index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/LUFENGZHAN/lz_utils.git"
-  },
-  "bugs": {
-    "url": "https://github.com/LUFENGZHAN/lz_utils/issues"
   },
   "files": [
     "types",
@@ -16,7 +13,6 @@
   ],
   "author": "LUFENGZHAN <xiaozhan2000423@163.com>",
   "license": "MIT",
-  "homepage": "https://github.com/LUFENGZHAN/lz_utils#readme",
   "keywords": [],
   "dependencies": {
     "spark-md5": "^3.0.2"
