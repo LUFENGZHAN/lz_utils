@@ -35,12 +35,12 @@ export const MaxNum = (start: string, end: string): String => {
 
 /**
  * 
- * @param defTime 时间区间
- * @param {number | string} interval 0
+ *  defTime 时间区间
+ * @param {number | string} interval 1
  * @param {boolean} _bool false
  * @example defTime(2) ['2024-02-01', '2024-03-31']
  */
-export const defTime = (interval: string | number = 1,_bool: boolean = false): Array<string> => {
+export const defTime = (interval: string | number = 1, _bool: boolean = false): Array<string> => {
     const date = new Date()
     const months = [12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
     let year = date.getFullYear()
@@ -63,7 +63,7 @@ export const defTime = (interval: string | number = 1,_bool: boolean = false): A
  * @param {Boolean} isMd5 是否使用md5作为hash
  */
 export const cuFile = async (file: File, size: number = 5, isMd5: Boolean = false): Promise<ChunkType[] | ChunkBlobType[]> => {
-    if (!file ) return []
+    if (!file) return []
     const CHUNK_SIZE = Math.round(size) * 1024 * 1024
     const chunkCount = Math.ceil(file.size / CHUNK_SIZE)
     const result: ChunkBlobType[] = []
@@ -80,14 +80,14 @@ export const cuFile = async (file: File, size: number = 5, isMd5: Boolean = fals
  * crypto-js加密
  * @param {*} value 内容
  * @param {string}key key值
- * @param {boolean}key 是否把您传入的key值转为MD5
+ * @param {boolean}md5 是否把您传入的key值转为MD5
  */
-export const encrypt = (value:any,key?:string,md5?:boolean):encryptType=>{
-    const keyStr =md5&& key? CryptoJs.MD5(key).toString(): key?  key:CryptoJs.MD5(value).toString()
+export const encrypt = (value: any, key?: string, md5?: boolean): encryptType => {
+    const keyStr = md5 && key ? CryptoJs.MD5(key).toString() : key ? key : CryptoJs.MD5(value).toString()
     const encrypts = CryptoJs.AES.encrypt(JSON.stringify(value), keyStr)
     return {
-        value:encrypts.toString(),
-        key:keyStr 
+        value: encrypts.toString(),
+        key: keyStr
     }
 }
 /**
@@ -95,18 +95,46 @@ export const encrypt = (value:any,key?:string,md5?:boolean):encryptType=>{
  * @param {*} value 内容
  * @param {string}key key值
  */
-export const decrypt = (value:any,key:string)=>{
+export const decrypt = (value: any, key: string) => {
     let decrypts = CryptoJs.AES.decrypt(value, key).toString(CryptoJs.enc.Utf8)
     return (decrypts && JSON.parse(decrypts)) || null
 }
+/**
+ * 文件下载函数
+ * @param {Blob} data - 文件数据
+ * @param {string} filename - 下载文件的名称
+ * @param {string} fileType - 文件类型，如 'pdf', 'word', 'excel', 'ppt'
+ */
+type fileType = 'pdf'| 'doc'|'excel'|'ppt'|'zip'|'pptx'|'docx'
+export const downloadFile = (data: Blob,fileType:fileType, filename?: string) => {
+    const mimeTypes = {
+        pdf: "application/pdf",
+        doc: "application/msword",
+        excel: "application/vnd.ms-excel",
+        ppt: "application/vnd.ms-powerpoint",
+        docx: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        pptx: "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+        zip: "application/zip",
+    };
+    const type =  mimeTypes[fileType] || fileType
+    const blob = new Blob([data], { type});
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename|| '文件';
+    a.click();
+    window.URL.revokeObjectURL(url);
+    return url
+};
 export default {
     MaxNum,
     defTime,
     cuFile,
     encrypt,
-    decrypt
+    decrypt,
+    downloadFile
 }
 interface encryptType {
-    value:string,
-    key:string
+    value: string,
+    key: string
 }
