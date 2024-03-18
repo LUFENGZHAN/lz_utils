@@ -1,19 +1,20 @@
-import common from "./tool"
+import { formatNumber, isNumericString } from "./tool"
 import CryptoJs from 'crypto-js'
 import { createChunk, createChunkType as ChunkType, createChunkBlob, createChunkBlobType as ChunkBlobType } from "./createChunk"
 export type createChunkType = ChunkType
 export type createChunkBlobType = ChunkBlobType
 /**
- * 计算大整数之和
- * @param {*} start string
- * @param {*} end string
+ * 计算两个字符串表示的数字之和
+ * @param {string} start 第一个数字
+ * @param {string} end 第二个数字
+ * @returns {string} - 两个数字之和
  */
 export const MaxNum = (start: string, end: string): String => {
-    if (!start && !end) {
-        throw new Error('Two parameters cannot be empty')
+    if (!start || !end || typeof start !== 'string' || typeof end !== 'string') {
+        throw new Error('Invalid input: Both parameters must be non-empty strings')
     }
-    if (typeof (start) !== 'string' || typeof (end) !== 'string') {
-        throw new TypeError('Can only be a string')
+    if (!isNumericString(start) || !isNumericString(end)) {
+        throw new Error('Must be a numeric string')
     }
     const len = Math.max(start.length, end.length)
     start = start.padStart(len, '0')
@@ -36,24 +37,25 @@ export const MaxNum = (start: string, end: string): String => {
 /**
  * 
  *  defTime 时间区间
- * @param {number | string} interval 1
- * @param {boolean} _bool false
- * @example defTime(2) ['2024-02-01', '2024-03-31']
+ * @param {number} interval 间隔月数或当前月份
+ * @param {boolean} _bool 是否从当天启始
+ * @returns {Array<string>} - 包含起始日期和结束日期的数组
  */
-export const defTime = (interval: string | number = 1, _bool: boolean = false): Array<string> => {
+export const defTime = (interval:number = 1, _bool: boolean = false): Array<string> => {
     const date = new Date()
     const months = [12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
     let year = date.getFullYear()
     let month = date.getMonth() + 1
     interval = Number(interval) || 1
-    let index = Number(interval) === 1 ? month : month - Number(interval)
+    _bool ? interval : interval--
+    let index = Number(interval) === 0 ? month : month - Number(interval)
     if (index < 1) {
         index = months[Math.abs(index) % 12]
         year = year - Math.ceil(Number(interval) / 12)
     }
-    const days = new Date(year, date.getMonth() + 1, 0).getDate()
-    let start = `${year}-${common.tooltime(index)}-${common.tooltime((date.getDate() - date.getDate() + 1))}`
-    let end = `${date.getFullYear()}-${common.tooltime(date.getMonth() + 1)}-${common.tooltime(days)}`
+    const daysInMonth = new Date(year, date.getMonth() + 1, 0).getDate()
+    let start = `${year}-${formatNumber(index)}-${formatNumber((_bool ? date.getDate() : 1))}`
+    let end = `${date.getFullYear()}-${formatNumber(date.getMonth() + 1)}-${_bool ? date.getDate() : formatNumber(daysInMonth)}`
     return [start, end]
 }
 /**
@@ -81,6 +83,7 @@ export const cuFile = async (file: File, size: number = 5, isMd5: Boolean = fals
  * @param {*} value 内容
  * @param {string}key key值
  * @param {boolean}md5 是否把您传入的key值转为MD5
+ * @returns {encryptType} 包含key值和密文的对象
  */
 export const encrypt = (value: any, key?: string, md5?: boolean): encryptType => {
     const keyStr = md5 && key ? CryptoJs.MD5(key).toString() : key ? key : CryptoJs.MD5(value).toString()
@@ -105,8 +108,8 @@ export const decrypt = (value: any, key: string) => {
  * @param {string} filename - 下载文件的名称
  * @param {string} fileType - 文件类型，如 'pdf', 'word', 'excel', 'ppt'
  */
-type fileType = 'pdf'| 'doc'|'excel'|'ppt'|'zip'|'pptx'|'docx'
-export const downloadFile = (data: Blob,fileType:fileType, filename?: string) => {
+type fileType = 'pdf' | 'doc' | 'excel' | 'ppt' | 'zip' | 'pptx' | 'docx'
+export const downloadFile = (data: Blob, fileType: fileType, filename?: string) => {
     const mimeTypes = {
         pdf: "application/pdf",
         doc: "application/msword",
@@ -116,12 +119,12 @@ export const downloadFile = (data: Blob,fileType:fileType, filename?: string) =>
         pptx: "application/vnd.openxmlformats-officedocument.presentationml.presentation",
         zip: "application/zip",
     };
-    const type =  mimeTypes[fileType] || fileType
-    const blob = new Blob([data], { type});
+    const type = mimeTypes[fileType] || fileType
+    const blob = new Blob([data], { type });
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = filename|| '文件';
+    a.download = filename || '文件';
     a.click();
     window.URL.revokeObjectURL(url);
     return url
