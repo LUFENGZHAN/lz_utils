@@ -1,4 +1,5 @@
 import common from "./tool"
+import CryptoJs from 'crypto-js'
 import { createChunk, createChunkType as ChunkType, createChunkBlob, createChunkBlobType as ChunkBlobType } from "./createChunk"
 export type createChunkType = ChunkType
 export type createChunkBlobType = ChunkBlobType
@@ -72,8 +73,37 @@ export const cuFile = async (file: File, size: number = 5, isMd5: Boolean = fals
     }
     return result
 }
+/**
+ * crypto-js加密
+ * @param {*} value 内容
+ * @param {string}key key值
+ * @param {boolean}key 是否把您传入的key值转为MD5
+ */
+export const encrypt = (value:any,key?:string,md5?:boolean):encryptType=>{
+    const keyStr =md5&& key? CryptoJs.MD5(key).toString(): key?  key:CryptoJs.MD5(value).toString()
+    const encrypts = CryptoJs.AES.encrypt(JSON.stringify(value), keyStr)
+    return {
+        value:encrypts.toString(),
+        key:keyStr 
+    }
+}
+/**
+ * crypto-js解密
+ * @param {*} value 内容
+ * @param {string}key key值
+ */
+export const decrypt = (value:any,key:string)=>{
+    let decrypts = CryptoJs.AES.decrypt(value, key)
+    return JSON.parse(decrypts.toString(CryptoJs.enc.Utf8))
+}
 export default {
     MaxNum,
     deftime,
-    cuFile
+    cuFile,
+    encrypt,
+    decrypt
+}
+interface encryptType {
+    value:string,
+    key:string
 }
