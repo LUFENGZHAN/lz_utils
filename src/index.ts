@@ -35,15 +35,18 @@ export const MaxNum = (start: string, end: string): String => {
 
 /**
  * 
- * @param interval 区间
- * @example deftime(2)  [ '2023-04-01', '2023-06-30' ]
+ * @param defTime 时间区间
+ * @param {number | string} interval 0
+ * @param {boolean} _bool false
+ * @example defTime(2) ['2024-02-01', '2024-03-31']
  */
-export const deftime = (interval: string | number = 0): Array<string> => {
+export const defTime = (interval: string | number = 1,_bool: boolean = false): Array<string> => {
     const date = new Date()
     const months = [12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
     let year = date.getFullYear()
     let month = date.getMonth() + 1
-    let index = Number(interval) === 0 ? month : month - Number(interval)
+    interval = Number(interval) || 1
+    let index = Number(interval) === 1 ? month : month - Number(interval)
     if (index < 1) {
         index = months[Math.abs(index) % 12]
         year = year - Math.ceil(Number(interval) / 12)
@@ -93,12 +96,12 @@ export const encrypt = (value:any,key?:string,md5?:boolean):encryptType=>{
  * @param {string}key key值
  */
 export const decrypt = (value:any,key:string)=>{
-    let decrypts = CryptoJs.AES.decrypt(value, key)
-    return JSON.parse(decrypts.toString(CryptoJs.enc.Utf8))
+    let decrypts = CryptoJs.AES.decrypt(value, key).toString(CryptoJs.enc.Utf8)
+    return (decrypts && JSON.parse(decrypts)) || null
 }
 export default {
     MaxNum,
-    deftime,
+    defTime,
     cuFile,
     encrypt,
     decrypt
