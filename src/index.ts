@@ -108,18 +108,19 @@ export const decrypt = (value: any, key: string) => {
  * @param {string} filename - 下载文件的名称
  * @param {string} fileType - 文件类型，如 'pdf', 'word', 'excel', 'ppt'
  */
-type FileType = 'pdf' | 'doc' | 'excel' | 'ppt' | 'zip' | 'pptx' | 'docx'
-const mimeTypes:Record<FileType, string> = {
+type FileType = 'pdf' | 'doc' | 'docx' | 'xls' | 'xlsx' | 'ppt' | 'pptx' | 'zip';
+const mimeTypes: Record<FileType, string> = {
     pdf: "application/pdf",
     doc: "application/msword",
-    excel: "application/vnd.ms-excel",
-    ppt: "application/vnd.ms-powerpoint",
     docx: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    xls: "application/vnd.ms-excel",
+    xlsx: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    ppt: "application/vnd.ms-powerpoint",
     pptx: "application/vnd.openxmlformats-officedocument.presentationml.presentation",
     zip: "application/zip",
 };
-export const downloadFile = (data: Blob, fileType: FileType, filename?: string) => {
-    if (!(data instanceof Blob)) {
+export const downloadFile = (data: Blob, fileType: FileType, filename?: string,is_blob:boolean =true) => {
+    if (!(data instanceof Blob)&&is_blob) {
         throw new Error('Invalid input: data must be a Blob');
     }
     const type = mimeTypes[fileType] || fileType

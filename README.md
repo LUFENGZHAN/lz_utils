@@ -17,7 +17,7 @@ import utilsjs from 'pu-utilsjs';
 |encrypt| encrypt(内容,key,true) | 加密默认采用MD5作为key，第三个参入为真的话是把您传入的key转为MD5，函数返回对象 | cuFile(any,string,boolean) | encrypt(null,null,false) |
 |decrypt| decrypt(密文,key) | 返回解密结果，key必须与加密时的key一样 | cuFile(string,string) |  |
 |MaxNum| MaxNum(数字1,数字2) | 返回两数之和 | cuFile(string,string) |  |
-|downloadFile| downloadFile(Blob,'pdf') | 文档流下载,现第二入参文件类型有pdf,doc,excel,ppt,zip,pptx,docx，也可传入其他的类型如:text/plain、application/x-tar | downloadFile(Blob,string,string) | downloadFile(null,null,文件) |
+|downloadFile| downloadFile(Blob,'pdf') | 文档流下载,现第二入参文件类型有pdf,doc,excel,ppt,zip,pptx,docx，也可传入其他的类型如:text/plain、application/x-tar,第四个入参是否检验第一入参类型 | downloadFile(Blob,string,string) | downloadFile(null,null,文件,true) |
 #### 数字最大之和
 ```js
 import {MaxNum} from 'pu-utilsjs';
@@ -50,6 +50,6 @@ decrypt(value,'123456'):string  //解密
 ```js
 import  {downloadFile} from "pu-utilsjs"
 
-// 'pdf'| 'doc'|'excel'|'ppt'|'zip'|'pptx'|'docx'
-downloadFile(Blob,'doc')
+// 'pdf' | 'doc' | 'docx' | 'xls' | 'xlsx' | 'ppt' | 'pptx' | 'zip'
+downloadFile(Blob,'doc','word文件')
 ```
