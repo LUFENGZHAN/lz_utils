@@ -41,7 +41,7 @@ export const MaxNum = (start: string, end: string): String => {
  * @param {boolean} _bool 是否从当天启始
  * @returns {Array<string>} - 包含起始日期和结束日期的数组
  */
-export const defTime = (interval:number = 1, _bool: boolean = false): Array<string> => {
+export const defTime = (interval: number = 1, _bool: boolean = false): Array<string> => {
     const date = new Date()
     const months = [12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
     let year = date.getFullYear()
@@ -108,26 +108,35 @@ export const decrypt = (value: any, key: string) => {
  * @param {string} filename - 下载文件的名称
  * @param {string} fileType - 文件类型，如 'pdf', 'word', 'excel', 'ppt'
  */
-type fileType = 'pdf' | 'doc' | 'excel' | 'ppt' | 'zip' | 'pptx' | 'docx'
-export const downloadFile = (data: Blob, fileType: fileType, filename?: string) => {
-    const mimeTypes = {
-        pdf: "application/pdf",
-        doc: "application/msword",
-        excel: "application/vnd.ms-excel",
-        ppt: "application/vnd.ms-powerpoint",
-        docx: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-        pptx: "application/vnd.openxmlformats-officedocument.presentationml.presentation",
-        zip: "application/zip",
-    };
+type FileType = 'pdf' | 'doc' | 'excel' | 'ppt' | 'zip' | 'pptx' | 'docx'
+const mimeTypes:Record<FileType, string> = {
+    pdf: "application/pdf",
+    doc: "application/msword",
+    excel: "application/vnd.ms-excel",
+    ppt: "application/vnd.ms-powerpoint",
+    docx: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    pptx: "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+    zip: "application/zip",
+};
+export const downloadFile = (data: Blob, fileType: FileType, filename?: string) => {
+    if (!(data instanceof Blob)) {
+        throw new Error('Invalid input: data must be a Blob');
+    }
     const type = mimeTypes[fileType] || fileType
-    const blob = new Blob([data], { type });
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = filename || '文件';
-    a.click();
-    window.URL.revokeObjectURL(url);
-    return url
+    try {
+        const blob = new Blob([data], { type });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename || '文件';
+        a.click();
+        window.URL.revokeObjectURL(url);
+        return url
+    } catch (error) {
+        console.error('Error creating or downloading the file:', error);
+        return ''
+    }
+
 };
 export default {
     MaxNum,
