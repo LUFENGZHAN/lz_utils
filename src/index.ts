@@ -1,6 +1,7 @@
 import { formatNumber, isNumericString } from "./tool"
 import CryptoJs from 'crypto-js'
-import { createChunk, createChunkType as ChunkType, createChunkBlob, createChunkBlobType as ChunkBlobType } from "./createChunk"
+import { createChunkType as ChunkType, createChunkBlob, createChunkBlobType as ChunkBlobType } from "./createChunk"
+import worker_import from './worker?url'
 export type createChunkType = ChunkType
 export type createChunkBlobType = ChunkBlobType
 /**
@@ -64,19 +65,47 @@ export const defTime = (interval: number = 1, _bool: boolean = false): Array<str
  * @param {number} size 切片大小
  * @param {Boolean} isMd5 是否使用md5作为hash
  */
-export const cuFile = async (file: File, size: number = 5, isMd5: Boolean = false): Promise<ChunkType[] | ChunkBlobType[]> => {
-    if (!file) return []
-    const CHUNK_SIZE = Math.round(size) * 1024 * 1024
-    const chunkCount = Math.ceil(file.size / CHUNK_SIZE)
-    const result: ChunkBlobType[] = []
-    if (!isMd5) {
-        return createChunkBlob(file, CHUNK_SIZE)
-    }
-    for (let i = 0; i < chunkCount; i++) {
-        const chunk = await createChunk(file, i, CHUNK_SIZE)
-        result.push(chunk)
-    }
-    return result
+export const cuFile = (file: File, size: number = 5, isMd5: Boolean = false) => {
+    return new Promise((resolve, reject) => {
+        try {
+            if (!file) return []
+            const CHUNK_SIZE = Math.round(size) * 1024 * 1024
+            const chunkCount = Math.ceil(file.size / CHUNK_SIZE)
+            const THREAD_COUNT = navigator.hardwareConcurrency || 4
+            const threadChunkCount = Math.ceil(chunkCount / THREAD_COUNT)
+            let finishCount = 0
+            const result: ChunkBlobType[] = []
+            if (!isMd5) {
+                return resolve(createChunkBlob(file, CHUNK_SIZE))
+            }
+            for (let i = 0; i < THREAD_COUNT; i++) {
+                const worker = new Worker(worker_import, { type: 'module' })
+                let end = (i + 1) * threadChunkCount
+                let start = i * threadChunkCount
+                if (end > chunkCount) {
+                    end = chunkCount
+                }
+                worker.postMessage({
+                    file,
+                    CHUNK_SIZE,
+                    start: start,
+                    end: end
+                })
+                worker.onmessage = (e) => {
+                    for (let i = start; i < end; i++) {
+                        result[i] = e.data[i - start]
+                    }
+                    worker.terminate()
+                    finishCount++
+                    if (finishCount === THREAD_COUNT) {
+                        resolve(result)
+                    }
+                }
+            }
+        } catch (error) {
+            reject(error)
+        }
+    })
 }
 /**
  * crypto-js加密
@@ -119,8 +148,8 @@ const mimeTypes: Record<FileType, string> = {
     pptx: "application/vnd.openxmlformats-officedocument.presentationml.presentation",
     zip: "application/zip",
 };
-export const downloadFile = (data: Blob, fileType: FileType, filename?: string,is_blob:boolean =true) => {
-    if (!(data instanceof Blob)&&is_blob) {
+export const downloadFile = (data: Blob, fileType: FileType, filename?: string, is_blob: boolean = true) => {
+    if (!(data instanceof Blob) && is_blob) {
         throw new Error('Invalid input: data must be a Blob');
     }
     const type = mimeTypes[fileType] || fileType
