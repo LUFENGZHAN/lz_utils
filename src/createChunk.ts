@@ -17,7 +17,7 @@ export const createChunkBlob = (file: File, size: number):createChunkBlobType[] 
 }
 export const createChunk = (file: File, index: number,size:number):Promise<createChunkType>=> {
     return new Promise((resolve, reject) =>{
-        const start = index +size
+        const start = index *size
         const end = start  + size;
         const spark = new SparkMD5.ArrayBuffer();
         const reader = new FileReader();
