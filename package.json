@@ -1,13 +1,13 @@
 {
   "name": "pu-utilsjs",
-  "version": "0.0.33",
+  "version": "0.0.34",
   "main": "dist/index.js",
   "types": "types/index.d.ts",
   "files": [
     "types",
     "dist"
   ],
-  "author": "LUFENGZHAN <xiaozhan2000423@163.com>",
+  "author": "<xiaozhan2000423@163.com>",
   "license": "MIT",
   "keywords": [],
   "dependencies": {
